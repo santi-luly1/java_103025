@@ -6,6 +6,6 @@ import UI.UI;
 
 public class Exe {
 	public static void main(String[] args) throws SQLException {
-		new UI(new GestorPersona(new PersonaDB())).setVisible(true); // algoa
+		new UI(new GestorPersona(new PersonaDB())).setVisible(true); // test
 	}
 }
