@@ -1,6 +1,6 @@
-package Exe;
+package main;
 
-public class VerificarPersona {
+public class VerificarPrenda {
 	public static void validar(String nombre, String apellido, int edad, String sexo, String pais)
 			throws PersonaInvalidaException {
 		if (nombre == null || nombre.trim().isEmpty()) {

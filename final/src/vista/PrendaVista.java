@@ -1,5 +1,5 @@
-package UI;
-import Model.Persona;
+package vista;
+import modelo.Prenda;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;

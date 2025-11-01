@@ -1,5 +1,6 @@
-package Model;
-public class Persona {
+package modelo;
+
+public class Prenda {
 	private String nombre, apellido, sexo, pais; // "Masculino" | "Femenino"
 	private int edad, paisIndex, id; // Para mantener el 'indice del combo
 	private boolean estudiante;

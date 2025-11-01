@@ -1,11 +1,11 @@
-package Exe;
+package controlador;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Model.PersonaDB;
 import Model.Persona;
 
-public class GestorPersona {
+public class PrendaController {
 	private PersonaDB pDB;
 
 	public GestorPersona(PersonaDB pDB) throws SQLException {
