@@ -22,8 +22,6 @@ public class ConexionBD {
              ResultSet rs = st.executeQuery("SELECT * FROM prenda")) {
 
             while (rs.next()) { prendas.add(crearPrenda(rs)); }
-        } catch(SQLException e) {
-        	System.out.println(e.getMessage());
         }
 
         return prendas;
@@ -40,8 +38,6 @@ public class ConexionBD {
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) { prenda = crearPrenda(rs); }
             }
-        } catch(SQLException e) {
-        	System.out.println(e.getMessage());
         }
 
         return prenda;
@@ -60,9 +56,6 @@ public class ConexionBD {
             pst.setInt(7, p.getPaisIndex());
 
             return pst.executeUpdate() > 0;
-        } catch(SQLException e) {
-        	System.out.println(e.getMessage());
-        	return false;
         }
     }
 
