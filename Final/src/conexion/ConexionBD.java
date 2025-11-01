@@ -17,7 +17,7 @@ public class ConexionBD {
 	public ConexionBD() throws SQLException { //FIXME
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mariadb://localhostPrendasDB", "root", "test");
+			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/prendasDB", "root", "test");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -39,7 +39,7 @@ public class ConexionBD {
 
 			rs.close();
 			st.close();
-//			con.close();
+			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
