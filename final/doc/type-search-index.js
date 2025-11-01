@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"Exe","l":"Exe"},{"p":"Exe","l":"GestorPersona"},{"p":"Model","l":"Persona"},{"p":"Model","l":"PersonaDB"},{"p":"Exe","l":"PersonaInvalidaException"},{"p":"UI","l":"UI"},{"p":"UI","l":"UI2"},{"p":"Exe","l":"VerificarPersona"}];updateSearchResults();
