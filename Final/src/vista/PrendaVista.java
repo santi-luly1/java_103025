@@ -1,248 +1,119 @@
-package vista;
-import modelo.Prenda;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+import java.awt.EventQueue;
 
-import controlador.PrendaController;
-import main.PrendaInvalidaException;
-import main.VerificarPrenda;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class PrendaVista extends JFrame {
+
 	private static final long serialVersionUID = 1L;
-
-	private PrendaController controlador;
-	private DefaultTableModel modelo;
 	private JPanel contentPane;
-	private JTextField textFieldNombre;
-	private JTextField textFieldApellido;
-	private JTextField textFieldEdad;
-	private JTable table;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JComboBox<String> comboBoxPais;
-	private JRadioButton rdbtnMale;
-	private JRadioButton rdbtnFemale;
-	private JCheckBox chckbxEstudiante;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
 
-	public PrendaVista(PrendaController controlador) throws SQLException {
-		this.controlador = controlador;
-		initComponents();
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PrendaVista frame = new PrendaVista();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
-	private void borrar() {
-		textFieldNombre.setText("");
-		textFieldApellido.setText("");
-		textFieldEdad.setText("");
-		chckbxEstudiante.setSelected(false);
-		comboBoxPais.setSelectedIndex(-1);
-		buttonGroup.clearSelection();
-	}
-
-	private void cargarTabla() throws SQLException {
-		modelo.setRowCount(0);
-		for (Prenda prenda : controlador.getPrendas()) {
-			modelo.addRow(new Object[] { prenda.getNombre(), prenda.getApellido(), prenda.getEdad(),
-					prenda.getEstudiante() ? "Sí" : "No", prenda.getSexo(), prenda.getPais() });
-		}
-	}
-
-	private void initComponents() throws SQLException {
+	/**
+	 * Create the frame.
+	 */
+	public PrendaVista() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 520, 600);
+		setBounds(100, 100, 450, 424);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel lblPrenda_ID = new JLabel("Prenda_ID");
+		lblPrenda_ID.setBounds(26, 72, 84, 17);
+		contentPane.add(lblPrenda_ID);
+		
+		JLabel lblDescripcion_Prenda = new JLabel("Descripción");
+		lblDescripcion_Prenda.setBounds(26, 99, 84, 17);
+		contentPane.add(lblDescripcion_Prenda);
+		
+		JLabel lblTalle_Prenda = new JLabel("Talle");
+		lblTalle_Prenda.setBounds(26, 128, 60, 17);
+		contentPane.add(lblTalle_Prenda);
+		
+		JLabel lblColor_Prenda = new JLabel("Color");
+		lblColor_Prenda.setBounds(26, 157, 60, 17);
+		contentPane.add(lblColor_Prenda);
+		
+		JLabel lblPrecio_Prenda = new JLabel("Precio");
+		lblPrecio_Prenda.setBounds(26, 186, 60, 17);
+		contentPane.add(lblPrecio_Prenda);
+		
+		JLabel lblStock_Prenda = new JLabel("Stock");
+		lblStock_Prenda.setBounds(26, 215, 60, 17);
+		contentPane.add(lblStock_Prenda);
+		
+		textField = new JTextField();
+		textField.setBounds(108, 68, 114, 21);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(108, 97, 114, 21);
+		contentPane.add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(108, 126, 114, 21);
+		contentPane.add(textField_2);
+		textField_2.setColumns(10);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(108, 155, 114, 21);
+		contentPane.add(textField_3);
+		textField_3.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(108, 184, 114, 21);
+		contentPane.add(textField_4);
+		textField_4.setColumns(10);
+		
+		textField_5 = new JTextField();
+		textField_5.setBounds(108, 213, 114, 21);
+		contentPane.add(textField_5);
+		textField_5.setColumns(10);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(304, 72, 105, 27);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(304, 118, 105, 27);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.setBounds(304, 164, 105, 27);
+		contentPane.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("New button");
+		btnNewButton_3.setBounds(304, 210, 105, 27);
+		contentPane.add(btnNewButton_3);
 
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(42, 63, 60, 17);
-		contentPane.add(lblNombre);
-
-		JLabel lblApellido = new JLabel("Apellido");
-		lblApellido.setBounds(42, 92, 60, 17);
-		contentPane.add(lblApellido);
-
-		JLabel lblEdad = new JLabel("Edad");
-		lblEdad.setBounds(42, 121, 60, 17);
-		contentPane.add(lblEdad);
-
-		JLabel lblEstudiante = new JLabel("Estudiante");
-		lblEstudiante.setBounds(42, 151, 83, 17);
-		contentPane.add(lblEstudiante);
-
-		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(106, 61, 114, 21);
-		contentPane.add(textFieldNombre);
-
-		textFieldApellido = new JTextField();
-		textFieldApellido.setBounds(106, 92, 114, 21);
-		contentPane.add(textFieldApellido);
-
-		textFieldEdad = new JTextField();
-		textFieldEdad.setBounds(106, 119, 37, 21);
-		contentPane.add(textFieldEdad);
-
-		chckbxEstudiante = new JCheckBox("");
-		chckbxEstudiante.setBounds(116, 147, 37, 25);
-		contentPane.add(chckbxEstudiante);
-
-		JLabel lblPais = new JLabel("País");
-		lblPais.setBounds(167, 151, 60, 17);
-		contentPane.add(lblPais);
-
-		comboBoxPais = new JComboBox<>(new DefaultComboBoxModel<>(
-				new String[] { "Argentina", "Brasil", "Chile", "Colombia", "México", "Perú", "Uruguay", "Venezuela" }));
-		comboBoxPais.setBounds(200, 146, 110, 26);
-		contentPane.add(comboBoxPais);
-
-		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombre = textFieldNombre.getText();
-				String apellido = textFieldApellido.getText();
-				int edad;
-				try {
-					String txtEdad = textFieldEdad.getText();
-					edad = Integer.parseInt((txtEdad != null && !txtEdad.isEmpty()) ? txtEdad : "0");
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "La edad es inválida");
-					textFieldEdad.requestFocus();
-					return;
-				}
-
-				boolean estudiante = chckbxEstudiante.isSelected();
-				String sexo = rdbtnMale.isSelected() ? "Masculino" : (rdbtnFemale.isSelected() ? "Femenino" : null);
-				String pais = (String) comboBoxPais.getSelectedItem();
-
-				try {
-					VerificarPrenda.validar(nombre, apellido, edad, sexo, pais);
-					controlador.agregarPrenda(new Prenda(controlador.getPrendas().size() + 1, nombre, apellido, edad, estudiante, sexo, pais, comboBoxPais.getSelectedIndex()));
-					modelo.addRow(new Object[] { nombre, apellido, edad, estudiante ? "Sí" : "No", sexo, pais });
-					borrar();
-				} catch (PrendaInvalidaException | SQLException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				}
-			}
-		});
-		btnAgregar.setBounds(42, 208, 106, 27);
-		contentPane.add(btnAgregar);
-
-		JButton btnBorrar = new JButton("Borrar");
-		btnBorrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				borrar();
-			}
-		});
-		btnBorrar.setBounds(204, 208, 106, 27);
-		contentPane.add(btnBorrar);
-
-		JScrollPane scrollPane = new JScrollPane();
-		modelo = new DefaultTableModel();
-		modelo.addColumn("Nombre");
-		modelo.addColumn("Apellido");
-		modelo.addColumn("Edad");
-		modelo.addColumn("Estudiante");
-		modelo.addColumn("Sexo");
-		modelo.addColumn("País");
-
-		cargarTabla();
-
-		scrollPane.setBounds(42, 257, 430, 201);
-		contentPane.add(scrollPane);
-
-		table = new JTable();
-		table.setModel(modelo);
-		scrollPane.setViewportView(table);
-
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					eliminarSeleccionado();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnEliminar.setBounds(42, 519, 106, 27);
-		contentPane.add(btnEliminar);
-
-		JButton btnEliminarTodo = new JButton("Eliminar Todo");
-		btnEliminarTodo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					controlador.eliminarTodo();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				modelo.setRowCount(0);
-			}
-		});
-		btnEliminarTodo.setBounds(184, 519, 134, 27);
-		contentPane.add(btnEliminarTodo);
-
-		JButton btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		btnSalir.setBounds(366, 208, 106, 27);
-		contentPane.add(btnSalir);
-
-		JLabel lblGenero = new JLabel("Género");
-		lblGenero.setBounds(220, 121, 60, 17);
-		contentPane.add(lblGenero);
-
-		rdbtnMale = new JRadioButton("M");
-		buttonGroup.add(rdbtnMale);
-		rdbtnMale.setBounds(275, 117, 47, 25);
-		contentPane.add(rdbtnMale);
-
-		rdbtnFemale = new JRadioButton("F");
-		buttonGroup.add(rdbtnFemale);
-		rdbtnFemale.setBounds(326, 117, 47, 25);
-		contentPane.add(rdbtnFemale);
-
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					openUI2();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnModificar.setBounds(338, 519, 134, 27);
-		contentPane.add(btnModificar);
-
-		borrar();
-	}
-
-	private void eliminarSeleccionado() throws SQLException {
-		int filaSeleccionada = table.getSelectedRow();
-		if (filaSeleccionada > -1) {
-			controlador.eliminarPrenda(controlador.obtenerIndex(filaSeleccionada + 1));
-			modelo.removeRow(filaSeleccionada);
-		} else {
-			JOptionPane.showMessageDialog(this, "Debe seleccionar una fila.");
-		}
-	}
-
-	private void openUI2() throws SQLException {
-		int filaSeleccionada = -1; //table.getSelectedRow(); // Por el momento, -1 para que el bot'on no haga nada por el momento.
-
-		if (filaSeleccionada != -1) {
-			new UI2(controlador, filaSeleccionada + 1).setVisible(true);
-			dispose();
-		} else {
-			JOptionPane.showMessageDialog(this, "Debe de seleccionar una prenda.");
-		}
 	}
 }
-
-
