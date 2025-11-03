@@ -105,7 +105,7 @@ public class PrendaVista extends JFrame {
 	    JButton btnEliminar = new JButton("Eliminar");
 	    btnEliminar.setBounds(334, 166, 105, 27);
 	    contentPane.add(btnEliminar);
-
+//vgvgvgvgvgvgvvgggg
 	    JButton btnListar = new JButton("Listar");
 	    btnListar.setBounds(334, 205, 105, 27);
 	    contentPane.add(btnListar);
