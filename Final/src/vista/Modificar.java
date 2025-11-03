@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class UI2 extends JFrame { // TODO: La verdad no s'e si habr'ia que agregar esta clase en s'i, nunca se menciona una interf'az de "modificar", igualmente la agregu'e.
+public class Modificar extends JFrame { // TODO: La verdad no s'e si habr'ia que agregar esta clase en s'i, nunca se menciona una interf'az de "modificar", igualmente la agregu'e.
     private static final long serialVersionUID = 1L;
 
     private final PrendaController controlador;
@@ -27,7 +27,7 @@ public class UI2 extends JFrame { // TODO: La verdad no s'e si habr'ia que agreg
     private JRadioButton rdbtnFemale;
     private JCheckBox chckbxEstudiante;
 
-    public UI2(PrendaController controlador, int indexPrenda) throws SQLException {
+    public Modificar(PrendaController controlador, int indexPrenda) throws SQLException {
         this.controlador = controlador;
         this.indexPrenda = indexPrenda;
         initComponents();

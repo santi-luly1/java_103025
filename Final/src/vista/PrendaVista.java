@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -126,7 +127,11 @@ public class PrendaVista extends JFrame {
 	    JButton btnActualizar = new JButton("Actualizar");
 	    btnActualizar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
+	    		try {
+	    			abrirModificar();
+	    		} catch (SQLException e1) {
+	    			System.out.println(e1.getMessage());
+	    		}
 	    	}
 	    });
 	    btnActualizar.setBounds(334, 123, 105, 27);
@@ -165,5 +170,16 @@ public class PrendaVista extends JFrame {
 	        model.addRow(new Object[]{1, "Remera oversize", "M", "Negra", 1299.50, 10});
 	        model.addRow(new Object[]{2, "Pantalón cargo", "L", "Verde", 2599.00, 5});
 	    });
+	}
+	
+	private void abrirModificar() throws SQLException {
+		int filaSeleccionada = tablePrenda.getSelectedRow();
+
+		if (filaSeleccionada != -1) {
+			new Modificar(prendaController, filaSeleccionada + 1).setVisible(true);
+			dispose();
+		} else {
+			JOptionPane.showMessageDialog(this, "Debe de seleccionar una persona.");
+		}
 	}
 }
