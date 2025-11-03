@@ -121,7 +121,7 @@ public class PrendaVista extends JFrame {
 
 	    tablePrenda = new JTable(modelo);
 
-	    JScrollPane scrollPane = new JScrollPane(tablePrenda);
+	    JScrollPane scrollPane new JScrollPane(tablePrenda);
 	    scrollPane.setBounds(26, 262, 453, 230);
 	    contentPane.add(scrollPane);
 	    
@@ -130,5 +130,6 @@ public class PrendaVista extends JFrame {
 	        model.addRow(new Object[]{1, "Remera oversize", "M", "Negra", 1299.50, 10});
 	        model.addRow(new Object[]{2, "Pantalón cargo", "L", "Verde", 2599.00, 5});
 	    });
+	    //////dbebhbhwbdhdbhwbhd
 	}
 }
