@@ -1,42 +1,68 @@
 package modelo;
 
-public class Prenda { //FIXME: Reemplazar cada atributo de esta clase para que corresponda a una prenda.
-	private String nombre, apellido, sexo, pais; // "Masculino" | "Femenino"
-	private int edad, paisIndex, id; // Para mantener el 'indice del combo
-	private boolean estudiante;
+public class Prenda { // FIXME: Reemplazar cada atributo de esta clase para que corresponda a una prenda.
+	private String descripcion, talle, color;
+	private int id, stock;
+	private double precio;
 
-	public Prenda(int id, String nombre, String apellido, int edad, boolean estudiante, String sexo, String pais, int paisIndex) {
+	public Prenda(int id, String descripcion, String talle, String color, double precio, int stock) {
 		this.id = id;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.edad = edad;
-		this.estudiante = estudiante;
-		this.sexo = sexo;
-		this.pais = pais;
-		this.paisIndex = paisIndex;
+		this.descripcion = descripcion;
+		this.talle = talle;
+		this.color = color;
+		this.precio = precio;
+		this.stock = stock;
 	}
 
-	public int getId() 			{ return id; }
-	public int getIndex()		{ return id - 1; } // sql comienza por 1, Java por 0.
-	public void setId(int id)	{ this.id = id; }
-	
-	public String getNombre()				{ return nombre; }
-	public void setNombre(String nombre)	{ this.nombre = nombre; }
-	
-	public String getApellido()					{ return apellido; }
-	public void setApellido(String apellido)	{ this.apellido = apellido; }
-	
-	public int getEdad()			{ return edad; }
-	public void setEdad(int edad)	{ this.edad = edad; }
-	
-	public boolean getEstudiante()					{ return estudiante; }
-	public void setEstudiante(boolean estudiante)	{ this.estudiante = estudiante; }
-	
-	public String getSexo() 			{ return sexo; }
-	public void setSexo(String sexo)	{ this.sexo = sexo; }
-	
-	public String getPais() 				{ return pais; }
-	public void setPais(String pais)		{ this.pais = pais; }
-	public int getPaisIndex() 				{ return paisIndex; }
-	public void setPaisIndex(int paisIndex) { this.paisIndex = paisIndex; }
+	public int getId() {
+		return id;
+	}
+
+	public int getIndex() {
+		return id - 1;
+	} // sql comienza por 1, Java por 0.
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getTalle() {
+		return talle;
+	}
+
+	public void setTalle(String talle) {
+		this.talle = talle;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 }

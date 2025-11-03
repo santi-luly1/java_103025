@@ -1,7 +1,7 @@
 package main;
 
 public class VerificarPrenda {
-	public static void validar(String nombre, String apellido, int edad, String sexo, String pais) //FIXME
+	public static void validar(String nombre, String apellido, int edad, String sexo, String pais) // FIXME
 			throws PrendaInvalidaException {
 		if (nombre == null || nombre.trim().isEmpty()) {
 			throw new PrendaInvalidaException("El nombre no puede estar vacío.");
