@@ -5,17 +5,16 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ConexionBD {
-	private Connection getConexion() throws SQLException {
+	private Connection getConexion() throws SQLException, ClassNotFoundException {
 		return ConexionSingleton.getConnection();
 	}
 
 	private Prenda crearPrenda(ResultSet rs) throws SQLException {
-		// FIXME
-		return new Prenda(rs.getInt("id_prenda"), rs.getString("nombre"), rs.getString("apellido"), rs.getInt("edad"),
-				rs.getBoolean("estudiante"), rs.getString("sexo"), rs.getString("pais"), rs.getInt("paisIndex"));
+		return new Prenda(rs.getInt("id_prenda"), rs.getString("descripcion"), rs.getString("talle"), rs.getString("color"),
+				rs.getDouble("precio"), rs.getInt("stock"));
 	}
 
-	public ArrayList<Prenda> obtenerTodo() throws SQLException {
+	public ArrayList<Prenda> obtenerTodo() throws SQLException, ClassNotFoundException {
 		ArrayList<Prenda> prendas = new ArrayList<>();
 
 		try (Connection con = getConexion();
@@ -30,7 +29,7 @@ public class ConexionBD {
 		return prendas;
 	}
 
-	public Prenda obtenerPrenda(int id) throws SQLException {
+	public Prenda obtenerPrenda(int id) throws SQLException, ClassNotFoundException {
 		Prenda prenda = null;
 
 		try (Connection con = getConexion();
@@ -48,42 +47,38 @@ public class ConexionBD {
 		return prenda;
 	}
 
-	public boolean insertarPrenda(Prenda p) throws SQLException {
+	public boolean insertarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement(
-						"INSERT INTO prenda(nombre, apellido, edad, estudiante, sexo, pais, paisIndex) VALUES(?, ?, ?, ?, ?, ?, ?)")) {
+						"INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)")) {
 
-			pst.setString(1, p.getNombre());
-			pst.setString(2, p.getApellido());
-			pst.setInt(3, p.getEdad());
-			pst.setBoolean(4, p.getEstudiante());
-			pst.setString(5, p.getSexo());
-			pst.setString(6, p.getPais());
-			pst.setInt(7, p.getPaisIndex());
+			pst.setString(1, p.getDescripcion());
+			pst.setString(2, p.getTalle());
+			pst.setString(3, p.getColor());
+			pst.setDouble(4, p.getPrecio());
+			pst.setInt(5, p.getStock());
 
 			return pst.executeUpdate() > 0;
 		}
 	}
 
-	public boolean modificarPrenda(Prenda p) throws SQLException {
+	public boolean modificarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement(
-						"UPDATE prenda SET nombre=?, apellido=?, edad=?, estudiante=?, sexo=?, pais=?, paisIndex=? WHERE id_prenda=?")) {
+						"UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?")) {
 
-			pst.setString(1, p.getNombre());
-			pst.setString(2, p.getApellido());
-			pst.setInt(3, p.getEdad());
-			pst.setBoolean(4, p.getEstudiante());
-			pst.setString(5, p.getSexo());
-			pst.setString(6, p.getPais());
-			pst.setInt(7, p.getPaisIndex());
-			pst.setInt(8, p.getId());
+			pst.setString(1, p.getDescripcion());
+			pst.setString(2, p.getTalle());
+			pst.setString(3, p.getColor());
+			pst.setDouble(4, p.getPrecio());
+			pst.setInt(5, p.getStock());
+			pst.setInt(6, p.getId());
 
 			return pst.executeUpdate() > 0;
 		}
 	}
 
-	public boolean eliminarPrenda(int id) throws SQLException {
+	public boolean eliminarPrenda(int id) throws SQLException, ClassNotFoundException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("DELETE FROM prenda WHERE id_prenda=?")) {
 
@@ -92,7 +87,7 @@ public class ConexionBD {
 		}
 	}
 
-	public void eliminarTodo() throws SQLException {
+	public void eliminarTodo() throws SQLException, ClassNotFoundException {
 		try (Connection con = getConexion(); PreparedStatement pst = con.prepareStatement("TRUNCATE TABLE prenda")) {
 			pst.executeUpdate();
 		}

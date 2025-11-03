@@ -14,10 +14,12 @@ public class ConexionSingleton {
 	 * M'etodo est'atico que retorna la conexi'on
 	 * 
 	 * @return Connection
-	 * @SQLException
+	 * @throws ClassNotFoundException 
+	 * @throws SQLException
 	 **/
-	public static Connection getConnection() throws SQLException {
+	public static Connection getConnection() throws SQLException, ClassNotFoundException {
 		if (con == null || con.isClosed()) {
+			Class.forName("org.mariadb.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/prendasDB", "root", "test");
 		}
 

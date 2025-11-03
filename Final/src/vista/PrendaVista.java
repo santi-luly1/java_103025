@@ -1,6 +1,10 @@
+package vista;
+
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import java.awt.EventQueue;
+
+import controlador.PrendaController;
+import modelo.Prenda;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,14 +12,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JTextArea;
 import javax.swing.JTable;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class PrendaVista extends JFrame {
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField fieldID;
@@ -25,23 +28,15 @@ public class PrendaVista extends JFrame {
 	private JTextField fieldPrecio;
 	private JTextField fieldStock;
 	private JTable tablePrenda;
+	private PrendaController prendaController;
 
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PrendaVista frame = new PrendaVista();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public PrendaVista(PrendaController prendaController) {
+	    this.prendaController = prendaController;
+	    initComponents();
 	}
-
-	public PrendaVista() {
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	private void initComponents() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 500, 550);
 	    contentPane = new JPanel();
 	    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,9 +94,30 @@ public class PrendaVista extends JFrame {
 	    JButton btnAgregar = new JButton("Agregar");
 	    btnAgregar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		//descripcion = 
+	    		String descripcion = fieldDescripcion.getText(); 
+	    		String talle = fieldTalle.getText();
+	    		String color = fieldColor.getText();
+	    		double precio = Double.parseDouble(fieldPrecio.getText());
+	    		int stock = Integer.parseInt(fieldStock.getText());
 	    		
+	    		Prenda prenda = null;
+				try {
+					prenda = new Prenda(prendaController.getPrendas().size() + 1, descripcion, talle, color, precio, stock);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 	    		
+	    		try {
+					prendaController.agregarPrenda(prenda);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 	    	}
 	    });
 	    btnAgregar.setBounds(334, 79, 105, 27);

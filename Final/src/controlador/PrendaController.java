@@ -13,27 +13,27 @@ public class PrendaController {
 		this.pDB = pDB;
 	}
 
-	public ArrayList<Prenda> getPrendas() throws SQLException {
+	public ArrayList<Prenda> getPrendas() throws SQLException, ClassNotFoundException {
 		return pDB.obtenerTodo();
 	}
 
-	public Prenda obtenerIndex(int index) throws SQLException {
+	public Prenda obtenerIndex(int index) throws SQLException, ClassNotFoundException {
 		return pDB.obtenerPrenda(index);
 	}
 
-	public void agregarPrenda(Prenda p) throws SQLException {
+	public void agregarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
 		pDB.insertarPrenda(p);
 	}
 
-	public void modificarPrenda(Prenda p) throws SQLException {
+	public void modificarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
 		pDB.modificarPrenda(p);
 	}
 
-	public void eliminarPrenda(int id) throws SQLException {
+	public void eliminarPrenda(int id) throws SQLException, ClassNotFoundException {
 		pDB.eliminarPrenda(id);
 	}
 
-	public void eliminarTodo() throws SQLException {
+	public void eliminarTodo() throws SQLException, ClassNotFoundException {
 		pDB.eliminarTodo();
 	}
 }
