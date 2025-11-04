@@ -30,6 +30,7 @@ public class PrendaVista extends JFrame {
 	private JTextField fieldStock;
 	private JTable tablePrenda;
 	private PrendaController prendaController;
+	private DefaultTableModel modelo;
 
 	public PrendaVista(PrendaController prendaController) {
 	    this.prendaController = prendaController;
@@ -103,20 +104,15 @@ public class PrendaVista extends JFrame {
 	    		
 	    		Prenda prenda = null;
 				try {
-					prenda = new Prenda(prendaController.getPrendas().size() + 1, descripcion, talle, color, precio, stock);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
+					prenda = new Prenda(prendaController.getPrendas().size() + 1, descripcion, talle, color, precio, stock); //FIXME: Agregar verificaci'on de datos (ej. que la descripci'on no est'e vac'ia
+				} catch (SQLException | ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
 	    		
 	    		try {
 					prendaController.agregarPrenda(prenda);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
+					cargarLista();
+				} catch (SQLException | ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
 	    	}
@@ -128,8 +124,26 @@ public class PrendaVista extends JFrame {
 	    btnActualizar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		try {
-	    			abrirModificar();
-	    		} catch (SQLException e1) {
+	    			int filaSeleccionada = tablePrenda.getSelectedRow();
+
+	    			if (filaSeleccionada != -1) {
+	    				Prenda p = prendaController.obtenerIndex(filaSeleccionada);
+	    				fieldDescripcion.setText(p.getDescripcion());//FIXME: Probablemente los datos tengan que ser cargados al momento de seleccionar la fila, no cuando el bot'on sea pulsado.
+	    				fieldTalle.setText(p.getTalle());
+	    				fieldColor.setText(p.getColor());
+	    				fieldPrecio.setText(String.valueOf(p.getPrecio()));
+	    				fieldStock.setText(String.valueOf(p.getStock()));
+	    				
+	    				p.setDescripcion(fieldDescripcion.getText()); //TODO: Agregar un sistema para verificar que los datos sean v'alidos (que la descripci'on no est'e vac'ia, etc)
+	    				p.setTalle(fieldTalle.getText());
+	    				p.setColor(fieldColor.getText());
+	    				p.setPrecio(Double.parseDouble(fieldPrecio.getText()));
+	    				p.setStock(Integer.parseInt(fieldStock.getText()));
+	    				prendaController.modificarPrenda(p);
+	    			} else {
+	    				JOptionPane.showMessageDialog(null, "Debe de seleccionar una persona.");
+	    			}
+	    		} catch (SQLException | ClassNotFoundException e1) {
 	    			System.out.println(e1.getMessage());
 	    		}
 	    	}
@@ -157,7 +171,7 @@ public class PrendaVista extends JFrame {
 
 	    String[] columnas = {"ID", "Descripción", "Talle", "Color", "Precio", "Stock"};
 	    Object[][] datos = {}; 
-	    DefaultTableModel modelo = new DefaultTableModel(datos, columnas);
+	    modelo = new DefaultTableModel(datos, columnas);
 
 	    tablePrenda = new JTable(modelo);
 
@@ -165,21 +179,22 @@ public class PrendaVista extends JFrame {
 	    scrollPane.setBounds(26, 262, 453, 230);
 	    contentPane.add(scrollPane);
 	    
-	    btnListar.addActionListener(e -> {
-	        DefaultTableModel model = (DefaultTableModel) tablePrenda.getModel();
-	        model.addRow(new Object[]{1, "Remera oversize", "M", "Negra", 1299.50, 10});
-	        model.addRow(new Object[]{2, "Pantalón cargo", "L", "Verde", 2599.00, 5});
+	    btnListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					cargarLista();
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 	    });
 	}
-	//ttttttttt
-	private void abrirModificar() throws SQLException {
-		int filaSeleccionada = tablePrenda.getSelectedRow();
-
-		if (filaSeleccionada != -1) {
-			new Modificar(prendaController, filaSeleccionada + 1).setVisible(true);
-			dispose();
-		} else {
-			JOptionPane.showMessageDialog(this, "Debe de seleccionar una persona.");
+	
+	private void cargarLista() throws SQLException, ClassNotFoundException{
+		modelo.setRowCount(0);
+		for (Prenda prenda : prendaController.getPrendas()) {
+			modelo.addRow(new Object[] { prenda.getId(), prenda.getDescripcion(), prenda.getTalle(), prenda.getColor(), prenda.getPrecio(), prenda.getStock()});
 		}
 	}
 }

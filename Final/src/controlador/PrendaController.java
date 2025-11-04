@@ -18,7 +18,7 @@ public class PrendaController {
 	}
 
 	public Prenda obtenerIndex(int index) throws SQLException, ClassNotFoundException {
-		return pDB.obtenerPrenda(index);
+		return pDB.obtenerPrenda(index + 1);
 	}
 
 	public void agregarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
