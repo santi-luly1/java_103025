@@ -3,7 +3,6 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import modelo.Prenda;
 
 public class PrendaDAOImpl implements PrendaDAO {
@@ -31,7 +30,7 @@ public class PrendaDAOImpl implements PrendaDAO {
     @Override
     public Prenda obtenerPorId(int id) {
         Prenda prenda = null;
-        String sql = "SELECT * FROM prenda WHERE id_prenda=?";
+        String sql = "SELECT * FROM prenda WHERE id_prenda = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -83,7 +82,7 @@ public class PrendaDAOImpl implements PrendaDAO {
             stmt.setString(3, prenda.getColor());
             stmt.setDouble(4, prenda.getPrecio());
             stmt.setInt(5, prenda.getStock());
-            stmt.setInt(6, prenda.getId());
+            stmt.setInt(6, prenda.getIdPrenda());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,7 +91,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 
     @Override
     public void eliminar(int id) {
-        String sql = "DELETE FROM prenda WHERE id_prenda=?";
+        String sql = "DELETE FROM prenda WHERE id_prenda = ?";
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
@@ -101,4 +100,3 @@ public class PrendaDAOImpl implements PrendaDAO {
         }
     }
 }
-
