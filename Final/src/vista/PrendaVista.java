@@ -155,7 +155,7 @@ public class PrendaVista extends JFrame {
 	    btnEliminar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		int filaSeleccionada = tablePrenda.getSelectedRow();
-	    		if (filaSeleccionada > -1) {
+	    		if (filaSeleccionada != -1) {
 	    			try {
 						prendaController.eliminarPrenda(filaSeleccionada + 1);
 						modelo.removeRow(filaSeleccionada);

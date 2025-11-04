@@ -1,5 +1,5 @@
 package dao;
-import java.util.List;
+import java.util.ArrayList;
 
 import modelo.Prenda;
 
@@ -13,7 +13,7 @@ public interface PrendaDAO {
 	
 	void agregar(Prenda prenda);
 	Prenda obtenerPorId(int id);
-	List<Prenda> listarTodas();
+	ArrayList<Prenda> listarTodas();
 	void actualizar(Prenda prenda);
 	void eliminar(int id);
 
