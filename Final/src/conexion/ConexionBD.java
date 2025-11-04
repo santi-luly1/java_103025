@@ -5,8 +5,16 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ConexionBD {
-	private Connection getConexion() throws SQLException, ClassNotFoundException {
-		return ConexionSingleton.getConnection();
+	private Connection getConexion() {
+	    Connection con = null;
+	    
+	    try {
+	        con = ConexionSingleton.getConnection();
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return con;
 	}
 
 	private Prenda crearPrenda(ResultSet rs) throws SQLException {

@@ -1,6 +1,8 @@
 package dao;
 import java.util.List;
 
+import modelo.Prenda;
+
 public interface PrendaDAO {
 	void agregar(Prenda prenda);
 	Prenda obtenerPorId(int id);
