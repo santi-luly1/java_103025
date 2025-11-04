@@ -154,7 +154,19 @@ public class PrendaVista extends JFrame {
 	    JButton btnEliminar = new JButton("Eliminar");
 	    btnEliminar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-	    		
+	    		int filaSeleccionada = tablePrenda.getSelectedRow();
+	    		if (filaSeleccionada > -1) {
+	    			try {
+						prendaController.eliminarPrenda(filaSeleccionada + 1);
+						modelo.removeRow(filaSeleccionada);
+						cargarLista();
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	    		} else {
+	    			JOptionPane.showMessageDialog(null, "Debe seleccionar una fila.");
+	    		}
 	    	}
 	    });
 	    btnEliminar.setBounds(334, 166, 105, 27);

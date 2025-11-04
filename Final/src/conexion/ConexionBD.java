@@ -57,8 +57,7 @@ public class ConexionBD {
 
 	public boolean insertarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
 		try (Connection con = getConexion();
-				PreparedStatement pst = con.prepareStatement(
-						"INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)")) {
+				PreparedStatement pst = con.prepareStatement("INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)")) {
 
 			pst.setString(1, p.getDescripcion());
 			pst.setString(2, p.getTalle());
@@ -72,8 +71,7 @@ public class ConexionBD {
 
 	public boolean modificarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
 		try (Connection con = getConexion();
-				PreparedStatement pst = con.prepareStatement(
-						"UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?")) {
+				PreparedStatement pst = con.prepareStatement("UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?")) {
 
 			pst.setString(1, p.getDescripcion());
 			pst.setString(2, p.getTalle());
