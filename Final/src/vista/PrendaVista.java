@@ -125,9 +125,10 @@ public class PrendaVista extends JFrame {
 	    JButton btnActualizar = new JButton("Actualizar");
 	    btnActualizar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
+	    		int filaSeleccionada = tablePrenda.getSelectedRow();
 	    		try {
-	    			if (tablePrenda.getSelectedRow() != -1) {
-	    				Prenda p = prendaController.obtenerId((int) tablePrenda.getModel().getValueAt(0, 0));
+	    			if (filaSeleccionada != -1) {
+	    				Prenda p = prendaController.obtenerId((int) tablePrenda.getModel().getValueAt(filaSeleccionada, 0));
 	    				fieldDescripcion.setText(p.getDescripcion());//FIXME: Probablemente los datos tengan que ser cargados al momento de seleccionar la fila, no cuando el bot'on sea pulsado.
 	    				fieldTalle.setText(p.getTalle());
 	    				fieldColor.setText(p.getColor());
