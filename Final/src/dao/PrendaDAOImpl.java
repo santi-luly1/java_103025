@@ -1,104 +1,114 @@
 package dao;
 
+import modelo.Prenda;
+import conexion.ConexionSingleton;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
-
-import modelo.Prenda;
 
 public class PrendaDAOImpl implements PrendaDAO {
-    private Connection conexion;
+	private static Connection getConexion() {
+	    Connection con = null;
+	    
+	    try {
+	        con = ConexionSingleton.getConnection();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return con;
+	}
 
-    public PrendaDAOImpl(Connection conexion) {
-        this.conexion = conexion;
-    }
+	private static Prenda crearPrenda(ResultSet rs) throws SQLException {
+		return new Prenda(rs.getInt("id_prenda"), rs.getString("descripcion"), rs.getString("talle"), rs.getString("color"),
+				rs.getDouble("precio"), rs.getInt("stock"));
+	}
 
-    @Override
-    public void agregar(Prenda prenda) {
-        String sql = "INSERT INTO prenda (descripcion, talle, color, precio, stock) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setString(1, prenda.getDescripcion());
-            stmt.setString(2, prenda.getTalle());
-            stmt.setString(3, prenda.getColor());
-            stmt.setDouble(4, prenda.getPrecio());
-            stmt.setInt(5, prenda.getStock());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	public static ArrayList<Prenda> obtenerTodo() throws SQLException {
+		ArrayList<Prenda> prendas = new ArrayList<>();
 
-    @Override
-    public Prenda obtenerPorId(int id) {
-        Prenda prenda = null;
-        String sql = "SELECT * FROM prenda WHERE id_prenda=?";
-        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                prenda = new Prenda(
-                    rs.getInt("id_prenda"),
-                    rs.getString("descripcion"),
-                    rs.getString("talle"),
-                    rs.getString("color"),
-                    rs.getDouble("precio"),
-                    rs.getInt("stock")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return prenda;
-    }
+		try (Connection con = getConexion();
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery("SELECT * FROM prenda")) {
 
-    @Override
-    public List<Prenda> listarTodas() {
-        List<Prenda> lista = new ArrayList<>();
-        String sql = "SELECT * FROM prenda";
-        try (Statement stmt = conexion.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                Prenda p = new Prenda(
-                    rs.getInt("id_prenda"),
-                    rs.getString("descripcion"),
-                    rs.getString("talle"),
-                    rs.getString("color"),
-                    rs.getDouble("precio"),
-                    rs.getInt("stock")
-                );
-                lista.add(p);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return lista;
-    }
+			while (rs.next()) {
+				prendas.add(crearPrenda(rs));
+			}
+		}
 
-    @Override
-    public void actualizar(Prenda prenda) {
-        String sql = "UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?";
-        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setString(1, prenda.getDescripcion());
-            stmt.setString(2, prenda.getTalle());
-            stmt.setString(3, prenda.getColor());
-            stmt.setDouble(4, prenda.getPrecio());
-            stmt.setInt(5, prenda.getStock());
-            stmt.setInt(6, prenda.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+		return prendas;
+	}
 
-    @Override
-    public void eliminar(int id) {
-        String sql = "DELETE FROM prenda WHERE id_prenda=?";
-        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	public static Prenda obtenerPrenda(int id) throws SQLException {
+		Prenda prenda = null;
+
+		try (Connection con = getConexion();
+				PreparedStatement pst = con.prepareStatement("SELECT * FROM prenda WHERE id_prenda=?")) {
+
+			pst.setInt(1, id);
+
+			try (ResultSet rs = pst.executeQuery()) {
+				if (rs.next()) {
+					prenda = crearPrenda(rs);
+				}
+			}
+		}
+
+		return prenda;
+	}
+
+	public static boolean insertarPrenda(Prenda p) throws SQLException {
+		try (Connection con = getConexion();
+				PreparedStatement pst = con.prepareStatement("INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)")) {
+
+			pst.setString(1, p.getDescripcion());
+			pst.setString(2, p.getTalle());
+			pst.setString(3, p.getColor());
+			pst.setDouble(4, p.getPrecio());
+			pst.setInt(5, p.getStock());
+			
+			int afectados = pst.executeUpdate();
+			
+			if (afectados > 0) {
+				try (Statement st = con.createStatement();
+		                 ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID()")) {
+		                if (rs.next()) {
+		                    p.setId(rs.getInt(1)); // actualiza la prenda a su id correspondiente (yeeey no m'as bug)
+		                }
+		            }
+			}
+
+			return afectados > 0;
+		}
+	}
+
+	public static boolean modificarPrenda(Prenda p) throws SQLException {
+		try (Connection con = getConexion();
+				PreparedStatement pst = con.prepareStatement("UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?")) {
+
+			pst.setString(1, p.getDescripcion());
+			pst.setString(2, p.getTalle());
+			pst.setString(3, p.getColor());
+			pst.setDouble(4, p.getPrecio());
+			pst.setInt(5, p.getStock());
+			pst.setInt(6, p.getId());
+
+			return pst.executeUpdate() > 0;
+		}
+	}
+
+	public static boolean eliminarPrenda(int id) throws SQLException {
+		try (Connection con = getConexion();
+				PreparedStatement pst = con.prepareStatement("DELETE FROM prenda WHERE id_prenda=?")) {
+
+			pst.setInt(1, id);
+			return pst.executeUpdate() > 0;
+		}
+	}
+
+	public static void eliminarTodo() throws SQLException {
+		try (Connection con = getConexion();
+				PreparedStatement pst = con.prepareStatement("TRUNCATE TABLE prenda")) {
+			pst.executeUpdate();
+		}
+	}
 }
-

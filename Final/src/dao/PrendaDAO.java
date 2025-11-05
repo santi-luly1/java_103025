@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import modelo.Prenda;
 
 public interface PrendaDAO {
-	int id = 0;
-	String descripcion = "";
-	String talla = "";
-	String color = "";
-	double precio = 0;
-	int stock = 0;
-	
-	void agregar(Prenda prenda);
-	Prenda obtenerPorId(int id);
-	ArrayList<Prenda> listarTodas();
-	void actualizar(Prenda prenda);
-	void eliminar(int id);
-
+	public static void agregarPrenda(Prenda prenda) {
+	}
+	public static Prenda obtenerPrenda(int id) {
+		return null;
+	}
+	public static ArrayList<Prenda> obtenerTodo() {
+		return null;
+	}
+	public static boolean modificarPrenda(Prenda prenda) {
+		return false;
+	}
+	public static boolean eliminarPrenda(int id) {
+		return false;
+	}
+	public static boolean eliminarTodo() {
+		return false;
+	}
 }

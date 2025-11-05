@@ -13,10 +13,9 @@ public class ConexionSingleton {
 	 * M'etodo est'atico que retorna la conexi'on
 	 * 
 	 * @return Connection
-	 * @throws ClassNotFoundException 
 	 * @throws SQLException
 	 **/
-	public static Connection getConnection() throws SQLException, ClassNotFoundException {
+	public static Connection getConnection() throws SQLException {
 		if (con == null || con.isClosed()) {
 			try {
 				Class.forName("org.mariadb.jdbc.Driver");

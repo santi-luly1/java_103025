@@ -4,6 +4,8 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.PrendaController;
+import main.PrendaInvalidaException;
+import main.VerificarPrenda;
 import modelo.Prenda;
 
 import javax.swing.JFrame;
@@ -102,17 +104,15 @@ public class PrendaVista extends JFrame {
 	    		double precio = Double.parseDouble(fieldPrecio.getText());
 	    		int stock = Integer.parseInt(fieldStock.getText());
 	    		
-	    		Prenda prenda = null;
 				try {
-					prenda = new Prenda(prendaController.getPrendas().size() + 1, descripcion, talle, color, precio, stock); //FIXME: Agregar verificaci'on de datos (ej. que la descripci'on no est'e vac'ia
-				} catch (SQLException | ClassNotFoundException e1) {
-					e1.printStackTrace();
-				}
-	    		
-	    		try {
-					prendaController.agregarPrenda(prenda);
-					cargarLista();
-				} catch (SQLException | ClassNotFoundException e1) {
+					VerificarPrenda.validar(descripcion, talle, color, precio, stock);
+					Prenda prenda = new Prenda(-1, descripcion, talle, color, precio, stock);// -1 es el id por defecto, pero al llamar agregarPrenda(), este se ecanrgar'a de modificar -1 a su id correspondiente.
+					if(prendaController.agregarPrenda(prenda)) { //verifica si se agreg'o la prenda.
+						cargarLista();
+					} else {
+						JOptionPane.showMessageDialog(null, "No se pudo agregar la nueva prenda.");
+					}
+				} catch (SQLException | PrendaInvalidaException e1) {
 					e1.printStackTrace();
 				}
 	    	}
@@ -124,26 +124,37 @@ public class PrendaVista extends JFrame {
 	    btnActualizar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		try {
-	    			int filaSeleccionada = tablePrenda.getSelectedRow();
-
-	    			if (filaSeleccionada != -1) {
-	    				Prenda p = prendaController.obtenerIndex(filaSeleccionada);
+	    			if (tablePrenda.getSelectedRow() != -1) {
+	    				Prenda p = prendaController.obtenerId((int) tablePrenda.getModel().getValueAt(0, 0));
 	    				fieldDescripcion.setText(p.getDescripcion());//FIXME: Probablemente los datos tengan que ser cargados al momento de seleccionar la fila, no cuando el bot'on sea pulsado.
 	    				fieldTalle.setText(p.getTalle());
 	    				fieldColor.setText(p.getColor());
 	    				fieldPrecio.setText(String.valueOf(p.getPrecio()));
 	    				fieldStock.setText(String.valueOf(p.getStock()));
 	    				
-	    				p.setDescripcion(fieldDescripcion.getText()); //TODO: Agregar un sistema para verificar que los datos sean v'alidos (que la descripci'on no est'e vac'ia, etc)
-	    				p.setTalle(fieldTalle.getText());
-	    				p.setColor(fieldColor.getText());
-	    				p.setPrecio(Double.parseDouble(fieldPrecio.getText()));
-	    				p.setStock(Integer.parseInt(fieldStock.getText()));
-	    				prendaController.modificarPrenda(p);
+	    				String descripcion = fieldDescripcion.getText();
+	    				String talle = fieldTalle.getText();
+	    				String color = fieldColor.getText();
+	    				double precio = Double.parseDouble(fieldPrecio.getText());
+	    				int stock = Integer.parseInt(fieldStock.getText());
+	    				
+	    				VerificarPrenda.validar(descripcion, talle, color, precio, stock);
+	    				
+	    				p.setDescripcion(descripcion);
+	    				p.setTalle(talle);
+	    				p.setColor(color);
+	    				p.setPrecio(precio);
+	    				p.setStock(stock);
+	    				
+	    				if (prendaController.modificarPrenda(p)) {
+	    					cargarLista();
+	    				} else {
+	    					JOptionPane.showMessageDialog(null, "No se pudo modificar la prenda.");
+	    				}
 	    			} else {
 	    				JOptionPane.showMessageDialog(null, "Debe de seleccionar una persona.");
 	    			}
-	    		} catch (SQLException | ClassNotFoundException e1) {
+	    		} catch (SQLException | PrendaInvalidaException e1) {
 	    			System.out.println(e1.getMessage());
 	    		}
 	    	}
@@ -157,10 +168,14 @@ public class PrendaVista extends JFrame {
 	    		int filaSeleccionada = tablePrenda.getSelectedRow();
 	    		if (filaSeleccionada != -1) {
 	    			try {
-						prendaController.eliminarPrenda(filaSeleccionada + 1);
-						modelo.removeRow(filaSeleccionada);
-						cargarLista();
-					} catch (ClassNotFoundException | SQLException e1) {
+						if(prendaController.eliminarPrenda((int) tablePrenda.getModel().getValueAt(filaSeleccionada, 0))) {
+							modelo.removeRow(filaSeleccionada);
+//							cargarLista(); //Menos carga para MariaDB (?) ya que de todas maneras estamos eliminando la fila, en todo caso, descomentar esta l'inea.
+						} else {
+							JOptionPane.showMessageDialog(null, "No se pudo eliminar la prenda.");
+						}
+						
+					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -195,15 +210,22 @@ public class PrendaVista extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					cargarLista();
-				} catch (ClassNotFoundException | SQLException e1) {
+				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 	    });
+	    
+	    try {
+			cargarLista();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
-	private void cargarLista() throws SQLException, ClassNotFoundException{
+	private void cargarLista() throws SQLException {
 		modelo.setRowCount(0);
 		for (Prenda prenda : prendaController.getPrendas()) {
 			modelo.addRow(new Object[] { prenda.getId(), prenda.getDescripcion(), prenda.getTalle(), prenda.getColor(), prenda.getPrecio(), prenda.getStock()});

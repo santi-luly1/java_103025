@@ -1,6 +1,6 @@
 package modelo;
 
-public class Prenda { // FIXME: Reemplazar cada atributo de esta clase para que corresponda a una prenda.
+public class Prenda {
 	private String descripcion, talle, color;
 	private int id, stock;
 	private double precio;

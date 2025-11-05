@@ -1,39 +1,32 @@
 package controlador;
-
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import conexion.ConexionBD;
+import java.util.ArrayList;
+import dao.PrendaDAOImpl;
 import modelo.Prenda;
 
 public class PrendaController {
-	private ConexionBD pDB;
-
-	public PrendaController(ConexionBD pDB) throws SQLException {
-		this.pDB = pDB;
+	public ArrayList<Prenda> getPrendas() throws SQLException {
+		return PrendaDAOImpl.obtenerTodo();
 	}
 
-	public ArrayList<Prenda> getPrendas() throws SQLException, ClassNotFoundException {
-		return pDB.obtenerTodo();
+	public boolean agregarPrenda(Prenda p) throws SQLException {
+		return PrendaDAOImpl.insertarPrenda(p);
 	}
 
-	public Prenda obtenerIndex(int index) throws SQLException, ClassNotFoundException {
-		return pDB.obtenerPrenda(index + 1);
+	public boolean modificarPrenda(Prenda p) throws SQLException {
+		return PrendaDAOImpl.modificarPrenda(p);
+	}
+	
+	public boolean eliminarPrenda(int id) throws SQLException {
+		return PrendaDAOImpl.eliminarPrenda(id);
 	}
 
-	public void agregarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
-		pDB.insertarPrenda(p);
+	public void eliminarTodo() throws SQLException {
+		PrendaDAOImpl.eliminarTodo();
 	}
 
-	public void modificarPrenda(Prenda p) throws SQLException, ClassNotFoundException {
-		pDB.modificarPrenda(p);
-	}
-
-	public void eliminarPrenda(int id) throws SQLException, ClassNotFoundException {
-		pDB.eliminarPrenda(id);
-	}
-
-	public void eliminarTodo() throws SQLException, ClassNotFoundException {
-		pDB.eliminarTodo();
+	public Prenda obtenerId(int id) throws SQLException {
+		return PrendaDAOImpl.obtenerPrenda(id);
 	}
 }

@@ -1,22 +1,22 @@
 package main;
 
 public class VerificarPrenda {
-	public static void validar(String nombre, String apellido, int edad, String sexo, String pais) // FIXME
+	public static void validar(String descripcion, String talle, String color, double precio, int stock) // FIXME
 			throws PrendaInvalidaException {
-		if (nombre == null || nombre.trim().isEmpty()) {
-			throw new PrendaInvalidaException("El nombre no puede estar vacío.");
+		if (descripcion == null || descripcion.trim().isEmpty()) {
+			throw new PrendaInvalidaException("La descripción no puede estar vacía.");
 		}
-		if (apellido == null || apellido.trim().isEmpty()) {
-			throw new PrendaInvalidaException("El apellido no puede estar vacío.");
+		if (talle == null || talle.trim().isEmpty()) {
+			throw new PrendaInvalidaException("El talle no puede estar vacío.");
 		}
-		if (edad < 1 || edad > 127) {
-			throw new PrendaInvalidaException("La edad debe estar entre 1 y 127.");
+		if (color == null || color.trim().isEmpty()) {
+			throw new PrendaInvalidaException("El color no puede estar vacío.");
 		}
-		if (sexo == null) {
-			throw new PrendaInvalidaException("Debe seleccionar un género.");
+		if (precio < 0) {
+			throw new PrendaInvalidaException("El precio debe ser mínimo 0.");
 		}
-		if (pais == null) {
-			throw new PrendaInvalidaException("Debe seleccionar un país.");
+		if (stock < 0) {
+			throw new PrendaInvalidaException("El stock debe ser mínimo 0.");
 		}
 	}
 }
