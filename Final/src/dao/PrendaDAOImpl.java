@@ -22,7 +22,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		return new Prenda(rs.getInt("id_prenda"), rs.getString("descripcion"), rs.getString("talle"), rs.getString("color"),
 				rs.getDouble("precio"), rs.getInt("stock"));
 	}
-
+	
 	public static ArrayList<Prenda> obtenerTodo() throws SQLException {
 		ArrayList<Prenda> prendas = new ArrayList<>();
 

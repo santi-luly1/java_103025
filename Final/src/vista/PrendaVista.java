@@ -112,8 +112,10 @@ public class PrendaVista extends JFrame {
 					} else {
 						JOptionPane.showMessageDialog(null, "No se pudo agregar la nueva prenda.");
 					}
-				} catch (SQLException | PrendaInvalidaException e1) {
+				} catch (SQLException e1) {
 					e1.printStackTrace();
+				} catch (PrendaInvalidaException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 	    	}
 	    });
@@ -154,8 +156,10 @@ public class PrendaVista extends JFrame {
 	    			} else {
 	    				JOptionPane.showMessageDialog(null, "Debe de seleccionar una persona.");
 	    			}
-	    		} catch (SQLException | PrendaInvalidaException e1) {
+	    		} catch (SQLException e1) {
 	    			System.out.println(e1.getMessage());
+	    		} catch (PrendaInvalidaException e1) {
+	    			JOptionPane.showMessageDialog(null, e1.getMessage());
 	    		}
 	    	}
 	    });
