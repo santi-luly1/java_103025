@@ -13,6 +13,14 @@ public class Prenda {
 		this.precio = precio;
 		this.stock = stock;
 	}
+	public Prenda() {
+		this.id = -1; // id por defecto.
+		this.descripcion = "";
+		this.talle = "";
+		this.color = "";
+		this.precio = 0;
+		this.stock = 0;
+	}
 
 	public int getId() {
 		return id;
@@ -64,5 +72,10 @@ public class Prenda {
 
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+	
+	@Override
+	public String toString() {
+		return "Identificador: " + id + "\nDescripcion: " + descripcion + "\nTalle: " + talle + "\nColor: " + color + "\nPrecio: " + precio + "\nStock: " + stock;
 	}
 }

@@ -23,6 +23,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 				rs.getDouble("precio"), rs.getInt("stock"));
 	}
 	
+	@Override
 	public ArrayList<Prenda> obtenerTodo() throws SQLException {
 		ArrayList<Prenda> prendas = new ArrayList<>();
 
@@ -38,6 +39,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		return prendas;
 	}
 
+	@Override
 	public Prenda obtenerPrenda(int id) throws SQLException {
 		Prenda prenda = null;
 
@@ -56,6 +58,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		return prenda;
 	}
 
+	@Override
 	public boolean agregarPrenda(Prenda p) throws SQLException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)")) {
@@ -81,6 +84,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		}
 	}
 
+	@Override
 	public boolean modificarPrenda(Prenda p) throws SQLException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?")) {
@@ -96,6 +100,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		}
 	}
 
+	@Override
 	public boolean eliminarPrenda(int id) throws SQLException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("DELETE FROM prenda WHERE id_prenda=?")) {
@@ -105,6 +110,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		}
 	}
 
+	@Override
 	public void eliminarTodo() throws SQLException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("TRUNCATE TABLE prenda")) {
