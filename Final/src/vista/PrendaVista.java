@@ -47,6 +47,8 @@ public class PrendaVista extends JFrame {
 	}
 
 	public PrendaVista() {
+		setTitle("MODA URBANA");
+		setResizable(false);
 		this.prendaController = new PrendaController();
 		initComponents();
 	}
