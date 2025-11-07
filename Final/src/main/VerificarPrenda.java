@@ -2,7 +2,7 @@ package main;
 
 public class VerificarPrenda {
 	public static void validar(String descripcion, String talle, String color, double precio, int stock) throws PrendaInvalidaException {
-		if (descripcion == null || descripcion.trim().isEmpty()) {
+		if (descripcion == null || descripcion.trim().isEmpty()) { // descripcio'on es null o est'a vac'ia
 			throw new PrendaInvalidaException("La descripción no puede estar vacía.");
 		}
 		if (talle == null || talle.trim().isEmpty()) {

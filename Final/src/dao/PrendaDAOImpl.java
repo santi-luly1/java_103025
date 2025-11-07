@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class PrendaDAOImpl implements PrendaDAO {
-	private Connection getConexion() {
+	private Connection getConexion() { // obtiene la conexi'on del singleton.
 	    Connection con = null;
 	    
 	    try {
@@ -18,13 +18,13 @@ public class PrendaDAOImpl implements PrendaDAO {
 	    return con;
 	}
 
-	private Prenda crearPrenda(ResultSet rs) throws SQLException {
+	private Prenda crearPrenda(ResultSet rs) throws SQLException { // crea objetos Prenda, ya sea para la lista o para retornarlas.
 		return new Prenda(rs.getInt("id_prenda"), rs.getString("descripcion"), rs.getString("talle"), rs.getString("color"),
 				rs.getDouble("precio"), rs.getInt("stock"));
 	}
 	
 	@Override
-	public ArrayList<Prenda> obtenerTodo() throws SQLException {
+	public ArrayList<Prenda> obtenerTodo() throws SQLException { // obtine un ArrayList de todas las prendas en la base de datos.
 		ArrayList<Prenda> prendas = new ArrayList<>();
 
 		try (Connection con = getConexion();
@@ -40,7 +40,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 	}
 
 	@Override
-	public Prenda obtenerPrenda(int id) throws SQLException {
+	public Prenda obtenerPrenda(int id) throws SQLException { // obtiene una prenda seg'un el id, si no la encuentra, retornar'a null.
 		Prenda prenda = null;
 
 		try (Connection con = getConexion();
@@ -59,7 +59,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 	}
 
 	@Override
-	public boolean agregarPrenda(Prenda p) throws SQLException {
+	public boolean agregarPrenda(Prenda p) throws SQLException { // agregamos una nueva prenda a la base de datos
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)")) {
 
@@ -85,7 +85,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 	}
 
 	@Override
-	public boolean modificarPrenda(Prenda p) throws SQLException {
+	public boolean modificarPrenda(Prenda p) throws SQLException { // modificamos una prenda en la base de datos, la prenda que recive debe de ser la prenda que sustitir'a la prenda existente
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?")) {
 
@@ -101,7 +101,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 	}
 
 	@Override
-	public boolean eliminarPrenda(int id) throws SQLException {
+	public boolean eliminarPrenda(int id) throws SQLException { // elimina una prenda de la base de datos
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("DELETE FROM prenda WHERE id_prenda=?")) {
 
@@ -111,7 +111,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 	}
 
 	@Override
-	public void eliminarTodo() throws SQLException {
+	public void eliminarTodo() throws SQLException { // elimina toda la base de datos.
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("TRUNCATE TABLE prenda")) {
 			pst.executeUpdate();
