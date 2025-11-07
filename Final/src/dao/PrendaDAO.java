@@ -1,24 +1,14 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.Prenda;
 
 public interface PrendaDAO {
-	public static void agregarPrenda(Prenda prenda) {
-	}
-	public static Prenda obtenerPrenda(int id) {
-		return null;
-	}
-	public static ArrayList<Prenda> obtenerTodo() {
-		return null;
-	}
-	public static boolean modificarPrenda(Prenda prenda) {
-		return false;
-	}
-	public static boolean eliminarPrenda(int id) {
-		return false;
-	}
-	public static boolean eliminarTodo() {
-		return false;
-	}
+	public boolean agregarPrenda(Prenda prenda) throws SQLException;
+	public Prenda obtenerPrenda(int id) throws SQLException;
+	public ArrayList<Prenda> obtenerTodo() throws SQLException;
+	public boolean modificarPrenda(Prenda prenda) throws SQLException;
+	public boolean eliminarPrenda(int id) throws SQLException;
+	public void eliminarTodo() throws SQLException;
 }

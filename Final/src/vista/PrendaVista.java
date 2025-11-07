@@ -20,6 +20,8 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class PrendaVista extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -33,66 +35,73 @@ public class PrendaVista extends JFrame {
 	private JTable tablePrenda;
 	private PrendaController prendaController;
 	private DefaultTableModel modelo;
+	private JTextField fieldBuscarId;
 
 	public PrendaVista(PrendaController prendaController) {
 	    this.prendaController = prendaController;
 	    initComponents();
 	}
+	public PrendaVista() {
+		this.prendaController = new PrendaController();
+		initComponents();
+	}
 	
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setBounds(100, 100, 500, 550);
+	    setBounds(100, 100, 500, 690);
 	    contentPane = new JPanel();
+	    contentPane.setBackground(new Color(255, 191, 233));
 	    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    setContentPane(contentPane);
 	    contentPane.setLayout(null);
 
 	    JLabel lblPrenda_ID = new JLabel("ID");
-	    lblPrenda_ID.setBounds(26, 72, 84, 17);
+	    lblPrenda_ID.setBounds(26, 248, 84, 17);
 	    contentPane.add(lblPrenda_ID);
 
 	    JLabel lblDescripcion_Prenda = new JLabel("Descripción");
-	    lblDescripcion_Prenda.setBounds(26, 99, 84, 17);
+	    lblDescripcion_Prenda.setBounds(26, 275, 84, 17);
 	    contentPane.add(lblDescripcion_Prenda);
 
 	    JLabel lblTalle_Prenda = new JLabel("Talle");
-	    lblTalle_Prenda.setBounds(26, 128, 60, 17);
+	    lblTalle_Prenda.setBounds(26, 304, 60, 17);
 	    contentPane.add(lblTalle_Prenda);
 
 	    JLabel lblColor_Prenda = new JLabel("Color");
-	    lblColor_Prenda.setBounds(26, 157, 60, 17);
+	    lblColor_Prenda.setBounds(26, 333, 60, 17);
 	    contentPane.add(lblColor_Prenda);
 
 	    JLabel lblPrecio_Prenda = new JLabel("Precio");
-	    lblPrecio_Prenda.setBounds(26, 186, 60, 17);
+	    lblPrecio_Prenda.setBounds(26, 362, 60, 17);
 	    contentPane.add(lblPrecio_Prenda);
 
 	    JLabel lblStock_Prenda = new JLabel("Stock");
-	    lblStock_Prenda.setBounds(26, 215, 60, 17);
+	    lblStock_Prenda.setBounds(26, 391, 60, 17);
 	    contentPane.add(lblStock_Prenda);
 
 	    fieldID = new JTextField();
-	    fieldID.setBounds(108, 68, 114, 21);
+	    fieldID.setEditable(false);
+	    fieldID.setBounds(108, 244, 114, 21);
 	    contentPane.add(fieldID);
 
 	    fieldDescripcion = new JTextField();
-	    fieldDescripcion.setBounds(108, 97, 114, 21);
+	    fieldDescripcion.setBounds(108, 273, 114, 21);
 	    contentPane.add(fieldDescripcion);
 
 	    fieldTalle = new JTextField();
-	    fieldTalle.setBounds(108, 126, 114, 21);
+	    fieldTalle.setBounds(108, 302, 114, 21);
 	    contentPane.add(fieldTalle);
 
 	    fieldColor = new JTextField();
-	    fieldColor.setBounds(108, 155, 114, 21);
+	    fieldColor.setBounds(108, 331, 114, 21);
 	    contentPane.add(fieldColor);
 
 	    fieldPrecio = new JTextField();
-	    fieldPrecio.setBounds(108, 184, 114, 21);
+	    fieldPrecio.setBounds(108, 360, 114, 21);
 	    contentPane.add(fieldPrecio);
 
 	    fieldStock = new JTextField();
-	    fieldStock.setBounds(108, 213, 114, 21);
+	    fieldStock.setBounds(108, 389, 114, 21);
 	    contentPane.add(fieldStock);
 
 	    JButton btnAgregar = new JButton("Agregar");
@@ -119,10 +128,11 @@ public class PrendaVista extends JFrame {
 				}
 	    	}
 	    });
-	    btnAgregar.setBounds(334, 79, 105, 27);
+	    btnAgregar.setBounds(335, 248, 105, 27);
 	    contentPane.add(btnAgregar);
 
-	    JButton btnActualizar = new JButton("Actualizar");
+	    JButton btnActualizar = new JButton("Modificar");
+	    btnActualizar.setEnabled(false);
 	    btnActualizar.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		int filaSeleccionada = tablePrenda.getSelectedRow();
@@ -164,7 +174,7 @@ public class PrendaVista extends JFrame {
 	    		}
 	    	}
 	    });
-	    btnActualizar.setBounds(334, 123, 105, 27);
+	    btnActualizar.setBounds(335, 292, 105, 27);
 	    contentPane.add(btnActualizar);
 
 	    JButton btnEliminar = new JButton("Eliminar");
@@ -189,16 +199,17 @@ public class PrendaVista extends JFrame {
 	    		}
 	    	}
 	    });
-	    btnEliminar.setBounds(334, 166, 105, 27);
+	    btnEliminar.setBounds(335, 335, 105, 27);
 	    contentPane.add(btnEliminar);
 
 	    JButton btnListar = new JButton("Listar");
-	    btnListar.setBounds(334, 205, 105, 27);
+	    btnListar.setBounds(335, 374, 105, 27);
 	    contentPane.add(btnListar);
 
 	    JLabel lblModaUrbana_TituloVentana = new JLabel("MODA URBANA");
+	    lblModaUrbana_TituloVentana.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblModaUrbana_TituloVentana.setFont(new Font("URW Gothic", Font.BOLD, 20));
-	    lblModaUrbana_TituloVentana.setBounds(195, 28, 204, 46);
+	    lblModaUrbana_TituloVentana.setBounds(144, 42, 204, 46);
 	    contentPane.add(lblModaUrbana_TituloVentana);
 
 	    String[] columnas = {"ID", "Descripción", "Talle", "Color", "Precio", "Stock"};
@@ -208,8 +219,41 @@ public class PrendaVista extends JFrame {
 	    tablePrenda = new JTable(modelo);
 
 	    JScrollPane scrollPane = new JScrollPane(tablePrenda);
-	    scrollPane.setBounds(26, 262, 453, 230);
+	    scrollPane.setBounds(26, 435, 453, 230);
 	    contentPane.add(scrollPane);
+	    
+	    fieldBuscarId = new JTextField();
+	    fieldBuscarId.setBounds(188, 100, 127, 36);
+	    contentPane.add(fieldBuscarId);
+	    
+	    JButton btnBuscarId = new JButton("Buscar ID");
+	    btnBuscarId.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		try {
+	    			int id = Integer.parseInt(fieldBuscarId.getText());
+	    			
+	    			if (id > 0) {
+	    				fieldID.setText(String.valueOf(id));
+	    				
+	    				Prenda prenda = PrendaController.obtenerId(id);
+	    				
+	    				fieldDescripcion.setText(prenda.getDescripcion());
+	    				fieldTalle.setText(prenda.getTalle());
+	    				fieldColor.setText(prenda.getColor());
+	    				fieldPrecio.setText(String.valueOf(prenda.getPrecio()));
+	    				fieldStock.setText(String.valueOf(prenda.getStock()));
+	    				
+	    				btnActualizar.setEnabled(true);
+	    			} else {
+	    				JOptionPane.showMessageDialog(null, "ID inexistente");
+	    			}
+	    		} catch (NumberFormatException e1) {
+	    			JOptionPane.showMessageDialog(null, "El ID ingresado no es válido");
+	    		}
+	    	}
+	    });
+	    btnBuscarId.setBounds(198, 149, 105, 27);
+	    contentPane.add(btnBuscarId);
 	    
 	    btnListar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

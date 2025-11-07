@@ -11,7 +11,7 @@ public class PrendaController {
 	}
 
 	public boolean agregarPrenda(Prenda p) throws SQLException {
-		return PrendaDAOImpl.insertarPrenda(p);
+		return PrendaDAOImpl.agregarPrenda(p);
 	}
 
 	public boolean modificarPrenda(Prenda p) throws SQLException {

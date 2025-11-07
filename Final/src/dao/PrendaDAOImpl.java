@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class PrendaDAOImpl implements PrendaDAO {
-	private static Connection getConexion() {
+	private Connection getConexion() {
 	    Connection con = null;
 	    
 	    try {
@@ -18,12 +18,12 @@ public class PrendaDAOImpl implements PrendaDAO {
 	    return con;
 	}
 
-	private static Prenda crearPrenda(ResultSet rs) throws SQLException {
+	private Prenda crearPrenda(ResultSet rs) throws SQLException {
 		return new Prenda(rs.getInt("id_prenda"), rs.getString("descripcion"), rs.getString("talle"), rs.getString("color"),
 				rs.getDouble("precio"), rs.getInt("stock"));
 	}
 	
-	public static ArrayList<Prenda> obtenerTodo() throws SQLException {
+	public ArrayList<Prenda> obtenerTodo() throws SQLException {
 		ArrayList<Prenda> prendas = new ArrayList<>();
 
 		try (Connection con = getConexion();
@@ -38,7 +38,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		return prendas;
 	}
 
-	public static Prenda obtenerPrenda(int id) throws SQLException {
+	public Prenda obtenerPrenda(int id) throws SQLException {
 		Prenda prenda = null;
 
 		try (Connection con = getConexion();
@@ -56,7 +56,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		return prenda;
 	}
 
-	public static boolean insertarPrenda(Prenda p) throws SQLException {
+	public boolean agregarPrenda(Prenda p) throws SQLException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)")) {
 
@@ -81,7 +81,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		}
 	}
 
-	public static boolean modificarPrenda(Prenda p) throws SQLException {
+	public boolean modificarPrenda(Prenda p) throws SQLException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?")) {
 
@@ -96,7 +96,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		}
 	}
 
-	public static boolean eliminarPrenda(int id) throws SQLException {
+	public boolean eliminarPrenda(int id) throws SQLException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("DELETE FROM prenda WHERE id_prenda=?")) {
 
@@ -105,7 +105,7 @@ public class PrendaDAOImpl implements PrendaDAO {
 		}
 	}
 
-	public static void eliminarTodo() throws SQLException {
+	public void eliminarTodo() throws SQLException {
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("TRUNCATE TABLE prenda")) {
 			pst.executeUpdate();

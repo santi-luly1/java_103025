@@ -1,8 +1,7 @@
 package main;
 
 public class VerificarPrenda {
-	public static void validar(String descripcion, String talle, String color, double precio, int stock) // FIXME
-			throws PrendaInvalidaException {
+	public static void validar(String descripcion, String talle, String color, double precio, int stock) throws PrendaInvalidaException {
 		if (descripcion == null || descripcion.trim().isEmpty()) {
 			throw new PrendaInvalidaException("La descripción no puede estar vacía.");
 		}
