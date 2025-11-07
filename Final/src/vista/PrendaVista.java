@@ -128,6 +128,7 @@ public class PrendaVista extends JFrame {
 																								// modificar -1 a su id
 																								// correspondiente.
 					if (prendaController.agregarPrenda(prenda)) { // verifica si se agreg'o la prenda.
+						limpiarCampos();
 						cargarLista();
 					} else {
 						JOptionPane.showMessageDialog(null, "No se pudo agregar la nueva prenda.");
@@ -165,6 +166,7 @@ public class PrendaVista extends JFrame {
 						p.setStock(stock);
 
 						if (prendaController.modificarPrenda(p)) {
+							limpiarCampos();
 							cargarLista();
 						} else {
 							JOptionPane.showMessageDialog(null, "No se pudo modificar la prenda.");
@@ -184,6 +186,7 @@ public class PrendaVista extends JFrame {
 		contentPane.add(btnActualizar);
 
 		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = tablePrenda.getSelectedRow();
@@ -209,14 +212,14 @@ public class PrendaVista extends JFrame {
 		btnEliminar.setBounds(335, 335, 105, 27);
 		contentPane.add(btnEliminar);
 
-		JButton btnListar = new JButton("Listar");
-		btnListar.setBounds(335, 374, 105, 27);
-		contentPane.add(btnListar);
+		JButton btnBorrarCampos = new JButton("Limpiar");
+		btnBorrarCampos.setBounds(335, 374, 105, 27);
+		contentPane.add(btnBorrarCampos);
 
 		JLabel lblModaUrbana_TituloVentana = new JLabel("MODA URBANA");
 		lblModaUrbana_TituloVentana.setHorizontalAlignment(SwingConstants.CENTER);
 		lblModaUrbana_TituloVentana.setFont(new Font("URW Gothic", Font.BOLD, 20));
-		lblModaUrbana_TituloVentana.setBounds(144, 42, 204, 46);
+		lblModaUrbana_TituloVentana.setBounds(144, 26, 204, 46);
 		contentPane.add(lblModaUrbana_TituloVentana);
 
 		String[] columnas = { "ID", "Descripción", "Talle", "Color", "Precio", "Stock" };
@@ -230,7 +233,7 @@ public class PrendaVista extends JFrame {
 		contentPane.add(scrollPane);
 
 		fieldBuscarId = new JTextField();
-		fieldBuscarId.setBounds(188, 100, 127, 36);
+		fieldBuscarId.setBounds(176, 71, 127, 36);
 		contentPane.add(fieldBuscarId);
 
 		JButton btnBuscarId = new JButton("Buscar ID");
@@ -255,6 +258,7 @@ public class PrendaVista extends JFrame {
 
 						for (int i = 0; i < tablePrenda.getRowCount(); i++) {
 							if ((int) tablePrenda.getValueAt(i, 0) == id) { // si el id de la fila es el id que buscamos, entonces
+								limpiarCampos(); // al encontrarlo limpiamos los campos, y los datos se cargar'an.
 								tablePrenda.setRowSelectionInterval(i, i);
 								break; // salimos del loop, ya que ya encontramos la fila del id.
 							}
@@ -273,7 +277,7 @@ public class PrendaVista extends JFrame {
 				}
 			}
 		});
-		btnBuscarId.setBounds(198, 149, 105, 27);
+		btnBuscarId.setBounds(186, 119, 105, 27);
 		contentPane.add(btnBuscarId);
 		
 		lblActualmenteModificando = new JLabel("");
@@ -281,15 +285,19 @@ public class PrendaVista extends JFrame {
 		lblActualmenteModificando.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblActualmenteModificando.setBounds(144, 186, 204, 46);
 		contentPane.add(lblActualmenteModificando);
-
-		btnListar.addActionListener(new ActionListener() {
+		
+		JButton btnDeseleccionarId = new JButton("Dejar de editar");
+		btnDeseleccionarId.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					cargarLista();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				tablePrenda.clearSelection();
+			}
+		});
+		btnDeseleccionarId.setBounds(176, 147, 127, 27);
+		contentPane.add(btnDeseleccionarId);
+
+		btnBorrarCampos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCampos();
 			}
 		});
 
@@ -304,7 +312,7 @@ public class PrendaVista extends JFrame {
 							int id = (int) tablePrenda.getValueAt(filaSeleccionada, 0);
 							Prenda prenda = prendaController.obtenerId(id);
 
-							lblActualmenteModificando.setText("Modificando ID: " + String.valueOf(id));
+							lblActualmenteModificando.setText("ID seleccionado: " + String.valueOf(id));
 							fieldID.setText(String.valueOf(id));
 							fieldDescripcion.setText(prenda.getDescripcion());
 							fieldTalle.setText(prenda.getTalle());
@@ -312,13 +320,17 @@ public class PrendaVista extends JFrame {
 							fieldPrecio.setText(String.valueOf(prenda.getPrecio()));
 							fieldStock.setText(String.valueOf(prenda.getStock()));
 
+							btnAgregar.setEnabled(false);
 							btnActualizar.setEnabled(true);
+							btnEliminar.setEnabled(true);
 						} catch (SQLException e1) {
 							// TODO: catch para el error sql blah blah.
 						}
 					} else {
 						lblActualmenteModificando.setText("");
 						btnActualizar.setEnabled(false); // en caso de que por alg'un motivo, el nuevo cambio haya sido que no est'e seleccionando ninguna fila, deshabilita el bot'on modificar.
+						btnAgregar.setEnabled(true);
+						btnEliminar.setEnabled(false);
 					}
 				}
 			}
@@ -338,5 +350,15 @@ public class PrendaVista extends JFrame {
 			modelo.addRow(new Object[] { prenda.getId(), prenda.getDescripcion(), prenda.getTalle(), prenda.getColor(),
 					prenda.getPrecio(), prenda.getStock() });
 		}
+	}
+	
+	private void limpiarCampos() {
+		fieldBuscarId.setText("");
+		fieldID.setText("");
+		fieldDescripcion.setText("");
+		fieldTalle.setText("");
+		fieldColor.setText("");
+		fieldPrecio.setText("");
+		fieldStock.setText("");
 	}
 }
