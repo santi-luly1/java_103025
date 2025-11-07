@@ -87,7 +87,7 @@ public class PrendaVista extends JFrame {
 		contentPane.add(lblStock_Prenda);
 
 		fieldID = new JTextField();
-		fieldID.setText("0");
+		fieldID.setText("");
 		fieldID.setEditable(false);
 		fieldID.setBounds(108, 244, 114, 21);
 		contentPane.add(fieldID);
@@ -293,6 +293,7 @@ public class PrendaVista extends JFrame {
 		btnDeseleccionarId.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tablePrenda.clearSelection();
+				limpiarCampos();
 			}
 		});
 		btnDeseleccionarId.setBounds(186, 134, 127, 27);
