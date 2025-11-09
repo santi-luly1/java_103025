@@ -3,7 +3,7 @@
  * Se utiliza el patrón Singleton para asegurar que solo haya una conexión
  * activa durante toda la ejecución del programa.
  *
- * @author: Ian Mieres
+ * @author: Santiago
  * @version: 1.0.38
  * @date: 09/11/2025
  */

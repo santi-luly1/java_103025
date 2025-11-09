@@ -4,7 +4,7 @@ package main;
  * Inicia la aplicación creando el controlador y la vista (interfaz gráfica).
  * Desde aquí se ejecuta la ventana principal del sistema de prendas.
  *
- * @author:
+ * @author: N
  * @version: 1.0.38
  * @date: 07/11/2025
  */

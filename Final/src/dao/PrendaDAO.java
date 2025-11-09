@@ -5,7 +5,7 @@ package dao;
  * Actúa como una plantilla que las clases concretas (como PrendaDAOImpl)
  * deben seguir para interactuar con la base de datos.
  *
- * @author:
+ * @author: Ra
  * @version: 1.0.38
  * @date: 07/11/2025
  */

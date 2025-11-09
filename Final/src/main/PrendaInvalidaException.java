@@ -3,7 +3,7 @@ package main;
  * Clase que define una excepción personalizada para prendas inválidas.
  * Se utiliza cuando alguno de los datos ingresados no cumple las validaciones.
  *
- * @author:
+ * @author: San
  * @version: 1.0.38
  * @date: 07/11/2025
  */

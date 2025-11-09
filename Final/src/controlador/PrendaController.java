@@ -4,7 +4,7 @@ package controlador;
  * Recibe las acciones del usuario desde la vista y las traduce en llamadas
  * a los métodos del DAO que interactúan con la base de datos.
  *
- * @author:
+ * @author: San
  * @version: 1.0.38
  * @date: 07/11/2025
  */

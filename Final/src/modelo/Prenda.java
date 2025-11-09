@@ -14,7 +14,7 @@ public class Prenda {
 	private int id, stock;
 	private double precio;
 
-	// Constructor: crea una nueva prenda con sus datos.
+ // Constructor: crea una nueva prenda con sus datos.
 	public Prenda(int id, String descripcion, String talle, String color, double precio, int stock) {
 		this.id = id;
 		this.descripcion = descripcion;
