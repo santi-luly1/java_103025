@@ -1,14 +1,46 @@
 package dao;
+/**
+ * Esta interfaz define los métodos básicos que deben implementarse
+ * para manejar las prendas dentro del sistema. 
+ * Actúa como una plantilla que las clases concretas (como PrendaDAOImpl)
+ * deben seguir para interactuar con la base de datos.
+ *
+ * @author:
+ * @version: 1.0.38
+ * @fecha: 07/11/2025
+ */
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.Prenda;
 
 public interface PrendaDAO {
-	public boolean agregarPrenda(Prenda prenda) throws SQLException;
-	public Prenda obtenerPrenda(int id) throws SQLException;
-	public ArrayList<Prenda> obtenerTodo() throws SQLException;
-	public boolean modificarPrenda(Prenda prenda) throws SQLException;
-	public boolean eliminarPrenda(int id) throws SQLException;
-	public void eliminarTodo() throws SQLException;
+	
+	// Agrega una prenda nueva a la base de datos.
+	public static void agregarPrenda(Prenda prenda) {
+	}
+
+	// Devuelve una prenda específica según su ID.
+	public static Prenda obtenerPrenda(int id) {
+		return null;
+	}
+
+	// Devuelve una lista con todas las prendas registradas.
+	public static ArrayList<Prenda> obtenerTodo() {
+		return null;
+	}
+
+	// Modifica una prenda existente en la base de datos.
+	public static boolean modificarPrenda(Prenda prenda) {
+		return false;
+	}
+
+	// Elimina una prenda según su ID.
+	public static boolean eliminarPrenda(int id) {
+		return false;
+	}
+
+	// Elimina todas las prendas almacenadas.
+	public static boolean eliminarTodo() {
+		return false;
+	}
 }
