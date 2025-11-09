@@ -5,7 +5,7 @@
  *
  * @author: Ian Mieres
  * @version: 1.0.38
- * @fecha: 09/11/2025
+ * @date: 09/11/2025
  */
 package conexion;
 

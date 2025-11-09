@@ -7,40 +7,29 @@ package dao;
  *
  * @author:
  * @version: 1.0.38
- * @fecha: 07/11/2025
+ * @date: 07/11/2025
  */
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.Prenda;
 
 public interface PrendaDAO {
-	
 	// Agrega una prenda nueva a la base de datos.
-	public static void agregarPrenda(Prenda prenda) {
-	}
+	public boolean agregarPrenda(Prenda prenda) throws SQLException;
 
 	// Devuelve una prenda específica según su ID.
-	public static Prenda obtenerPrenda(int id) {
-		return null;
-	}
+	public Prenda obtenerPrenda(int id) throws SQLException;
 
 	// Devuelve una lista con todas las prendas registradas.
-	public static ArrayList<Prenda> obtenerTodo() {
-		return null;
-	}
+	public ArrayList<Prenda> obtenerTodo() throws SQLException;
 
 	// Modifica una prenda existente en la base de datos.
-	public static boolean modificarPrenda(Prenda prenda) {
-		return false;
-	}
+	public boolean modificarPrenda(Prenda prenda) throws SQLException;
 
 	// Elimina una prenda según su ID.
-	public static boolean eliminarPrenda(int id) {
-		return false;
-	}
+	public boolean eliminarPrenda(int id) throws SQLException;
 
 	// Elimina todas las prendas almacenadas.
-	public static boolean eliminarTodo() {
-		return false;
-	}
+	public void eliminarTodo() throws SQLException;
 }

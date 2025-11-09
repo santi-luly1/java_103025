@@ -6,7 +6,7 @@ package modelo;
  *
  * @author:
  * @version: 1.0.38
- * @fecha: 07/11/2025
+ * @date: 07/11/2025
  */
 
 public class Prenda {

@@ -1,4 +1,10 @@
 package dao;
+
+import modelo.Prenda;
+import conexion.ConexionSingleton;
+import java.sql.*;
+import java.util.ArrayList;
+
 /**
  * Implementación concreta de la interfaz PrendaDAO.
  * Esta clase contiene toda la lógica para conectar con la base de datos
@@ -6,41 +12,29 @@ package dao;
  *
  * @author:
  * @version: 1.0.38
- * @fecha: 07/11/2025
+ * @date: 07/11/2025
  */
 
-import modelo.Prenda;
-import conexion.ConexionSingleton;
-import java.sql.*;
-import java.util.ArrayList;
-
 public class PrendaDAOImpl implements PrendaDAO {
-
-	// Obtiene una conexión activa desde el Singleton.
-	private static Connection getConexion() {
+	private Connection getConexion() { // obtiene la conexi'on del singleton.
 	    Connection con = null;
+	    
 	    try {
 	        con = ConexionSingleton.getConnection();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	    
 	    return con;
 	}
 
-	// Crea un objeto Prenda con los datos obtenidos desde la base.
-	private static Prenda crearPrenda(ResultSet rs) throws SQLException {
-		return new Prenda(
-			rs.getInt("id_prenda"),
-			rs.getString("descripcion"),
-			rs.getString("talle"),
-			rs.getString("color"),
-			rs.getDouble("precio"),
-			rs.getInt("stock")
-		);
+	private Prenda crearPrenda(ResultSet rs) throws SQLException { // crea objetos Prenda, ya sea para la lista o para retornarlas.
+		return new Prenda(rs.getInt("id_prenda"), rs.getString("descripcion"), rs.getString("talle"), rs.getString("color"),
+				rs.getDouble("precio"), rs.getInt("stock"));
 	}
 	
-	// Devuelve todas las prendas registradas.
-	public static ArrayList<Prenda> obtenerTodo() throws SQLException {
+	@Override
+	public ArrayList<Prenda> obtenerTodo() throws SQLException { // obtine un ArrayList de todas las prendas en la base de datos.
 		ArrayList<Prenda> prendas = new ArrayList<>();
 
 		try (Connection con = getConexion();
@@ -51,11 +45,12 @@ public class PrendaDAOImpl implements PrendaDAO {
 				prendas.add(crearPrenda(rs));
 			}
 		}
+
 		return prendas;
 	}
 
-	// Devuelve una prenda según su ID.
-	public static Prenda obtenerPrenda(int id) throws SQLException {
+	@Override
+	public Prenda obtenerPrenda(int id) throws SQLException { // obtiene una prenda seg'un el id, si no la encuentra, retornar'a null.
 		Prenda prenda = null;
 
 		try (Connection con = getConexion();
@@ -69,15 +64,14 @@ public class PrendaDAOImpl implements PrendaDAO {
 				}
 			}
 		}
+
 		return prenda;
 	}
 
-	// Inserta una nueva prenda en la base de datos.
-	public static boolean insertarPrenda(Prenda p) throws SQLException {
+	@Override
+	public boolean agregarPrenda(Prenda p) throws SQLException { // agregamos una nueva prenda a la base de datos
 		try (Connection con = getConexion();
-				PreparedStatement pst = con.prepareStatement(
-					"INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)"
-				)) {
+				PreparedStatement pst = con.prepareStatement("INSERT INTO prenda(descripcion, talle, color, precio, stock) VALUES(?, ?, ?, ?, ?)")) {
 
 			pst.setString(1, p.getDescripcion());
 			pst.setString(2, p.getTalle());
@@ -87,25 +81,23 @@ public class PrendaDAOImpl implements PrendaDAO {
 			
 			int afectados = pst.executeUpdate();
 			
-			// Si se insertó correctamente, asigna el nuevo ID a la prenda.
 			if (afectados > 0) {
 				try (Statement st = con.createStatement();
-		             ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID()")) {
-		            if (rs.next()) {
-		                p.setId(rs.getInt(1));
+		                 ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID()")) {
+		                if (rs.next()) {
+		                    p.setId(rs.getInt(1)); // actualiza la prenda a su id correspondiente (yeeey no m'as bug)
+		                }
 		            }
-		        }
 			}
+
 			return afectados > 0;
 		}
 	}
 
-	// Actualiza una prenda existente.
-	public static boolean modificarPrenda(Prenda p) throws SQLException {
+	@Override
+	public boolean modificarPrenda(Prenda p) throws SQLException { // modificamos una prenda en la base de datos, la prenda que recive debe de ser la prenda que sustitir'a la prenda existente
 		try (Connection con = getConexion();
-				PreparedStatement pst = con.prepareStatement(
-					"UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?"
-				)) {
+				PreparedStatement pst = con.prepareStatement("UPDATE prenda SET descripcion=?, talle=?, color=?, precio=?, stock=? WHERE id_prenda=?")) {
 
 			pst.setString(1, p.getDescripcion());
 			pst.setString(2, p.getTalle());
@@ -118,8 +110,8 @@ public class PrendaDAOImpl implements PrendaDAO {
 		}
 	}
 
-	// Elimina una prenda según su ID.
-	public static boolean eliminarPrenda(int id) throws SQLException {
+	@Override
+	public boolean eliminarPrenda(int id) throws SQLException { // elimina una prenda de la base de datos
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("DELETE FROM prenda WHERE id_prenda=?")) {
 
@@ -128,8 +120,8 @@ public class PrendaDAOImpl implements PrendaDAO {
 		}
 	}
 
-	// Elimina todas las prendas.
-	public static void eliminarTodo() throws SQLException {
+	@Override
+	public void eliminarTodo() throws SQLException { // elimina toda la base de datos.
 		try (Connection con = getConexion();
 				PreparedStatement pst = con.prepareStatement("TRUNCATE TABLE prenda")) {
 			pst.executeUpdate();
