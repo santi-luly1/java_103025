@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class ConexionSingleton {
 
     // Variable 'con' guarda la conexión a la base de datos.
-    // Es estática para que solo exista una única conexión (patrón Singleton).
+    // Es estática para que solo exista una única conexión.
     private static Connection con;
 
     // Constructor privado: impide crear objetos de esta clase desde fuera.
